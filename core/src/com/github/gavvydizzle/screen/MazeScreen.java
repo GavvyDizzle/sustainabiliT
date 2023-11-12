@@ -12,11 +12,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import com.github.gavvydizzle.Boot;
 import com.github.gavvydizzle.utils.BodyHelperService;
 import com.github.gavvydizzle.utils.Constants;
 import com.github.gavvydizzle.utils.TileMapHelper;
 
-//TODO - Probably broken because of the random 1.5f thrown around everywhere
 public class MazeScreen extends ScreenAdapter implements ContactListener, InputProcessor {
 
     private final OrthographicCamera camera;
@@ -68,7 +68,7 @@ public class MazeScreen extends ScreenAdapter implements ContactListener, InputP
             batch.draw(bottles, cursor.getPosition().x * Constants.PPM - bottlePixelSize/2f, cursor.getPosition().y * Constants.PPM - bottlePixelSize/2f);
         }
         else {
-            batch.draw(bottles, 3.25f * 1.5f * Constants.PPM, 0.25f * 1.5f * Constants.PPM);
+            batch.draw(bottles, 4.5f * Constants.PPM, 0.5f * Constants.PPM);
         }
         batch.end();
 
@@ -134,8 +134,7 @@ public class MazeScreen extends ScreenAdapter implements ContactListener, InputP
         }
 
         if (other.getBody() == goal) {
-            dead = true;
-            //reset();
+            Boot.instance.setRandomScreen();
         }
         else {
             dead = true;
@@ -180,6 +179,7 @@ public class MazeScreen extends ScreenAdapter implements ContactListener, InputP
 
             //create the cursor body
             cursor = BodyHelperService.createSensorBody(screenX, screenY, bottlePixelSize, world);
+            cursor.setTransform(screenX/Constants.PPM, (Gdx.graphics.getHeight() - screenY)/Constants.PPM, 0);
 
             return true;
         }
@@ -204,7 +204,7 @@ public class MazeScreen extends ScreenAdapter implements ContactListener, InputP
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         if (dragging) {
-            cursor.setTransform(screenX*1.5f/Constants.PPM, (Gdx.graphics.getHeight() - screenY)*1.5f/Constants.PPM, 0);
+            cursor.setTransform(screenX/Constants.PPM, (Gdx.graphics.getHeight() - screenY)/Constants.PPM, 0);
             return true;
         }
         return false;

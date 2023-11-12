@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.github.gavvydizzle.Boot;
 
 import java.util.Iterator;
 
@@ -29,8 +30,8 @@ public class RainwaterScreen extends ScreenAdapter {
     private Rectangle bucket;
     private long lastDropTime;
 
-    private final float bucketSpeed = 275f;
-    private final float dropSpeed = 200f;
+    private final float bucketSpeed = 505f;
+    private final float dropSpeed = 300f;
 
     // Drops
     private boolean dead;
@@ -124,6 +125,9 @@ public class RainwaterScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         this.update();
+        if (dropsCollected >= NUM_DROPS) {
+            return;
+        }
 
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
@@ -139,7 +143,7 @@ public class RainwaterScreen extends ScreenAdapter {
         batch.end();
 
         // check if we need to create a new raindrop
-        if(dropsRemaining > 0 && TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
+        if(dropsRemaining > 0 && TimeUtils.nanoTime() - lastDropTime > 5e8) spawnRaindrop();
 
         // move the raindrops, remove any that are beneath the bottom edge of
         // the screen or that hit the bucket. In the latter case we play back
@@ -164,6 +168,7 @@ public class RainwaterScreen extends ScreenAdapter {
             return;
         }
         else if (dropsCollected >= NUM_DROPS) {
+            Boot.instance.setRandomScreen();
             return;
         }
 

@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
+import com.github.gavvydizzle.Boot;
 import com.github.gavvydizzle.utils.Constants;
 import com.github.gavvydizzle.utils.TileMapHelper2;
 
@@ -67,7 +68,7 @@ public class TrashScreen extends ScreenAdapter implements ContactListener, Input
     @Override
     public void render(float delta) {
         if (win) {
-            System.out.println("Win");
+            Boot.instance.setRandomScreen();
             return;
         }
 
