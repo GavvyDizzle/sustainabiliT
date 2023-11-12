@@ -30,7 +30,7 @@ public class RainwaterScreen extends ScreenAdapter {
     private Rectangle bucket;
     private long lastDropTime;
 
-    private final float bucketSpeed = 505f;
+    private final float bucketSpeed = 500f;
     private final float dropSpeed = 300f;
 
     // Drops

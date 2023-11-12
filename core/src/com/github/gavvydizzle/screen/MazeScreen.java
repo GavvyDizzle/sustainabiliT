@@ -29,7 +29,7 @@ public class MazeScreen extends ScreenAdapter implements ContactListener, InputP
 
     // Game Objects
     private Body cursor, goal;
-    private boolean dragging, dead;
+    private boolean dragging, dead, win;
 
     // Bottles
     private Texture bottles;
@@ -56,6 +56,11 @@ public class MazeScreen extends ScreenAdapter implements ContactListener, InputP
 
     @Override
     public void render(float delta) {
+        if (win) {
+            Boot.instance.setRandomScreen();
+            return;
+        }
+
         this.update();
 
         Gdx.gl.glClearColor(0,0,0,1);
@@ -134,7 +139,7 @@ public class MazeScreen extends ScreenAdapter implements ContactListener, InputP
         }
 
         if (other.getBody() == goal) {
-            Boot.instance.setRandomScreen();
+            win = true;
         }
         else {
             dead = true;
@@ -174,7 +179,11 @@ public class MazeScreen extends ScreenAdapter implements ContactListener, InputP
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (!dragging) {
-            System.out.println(screenX + ", " + screenY);
+            float x = screenX * 1.0f / Constants.PPM;
+            float y = (Gdx.graphics.getHeight() - screenY) / Constants.PPM;
+            Vector2 dir = new Vector2(x,y).sub(5, 1);
+            if (dir.dst2(Vector2.Zero) > 1) return true;
+
             dragging = true;
 
             //create the cursor body

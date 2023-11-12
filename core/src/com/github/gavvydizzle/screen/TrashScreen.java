@@ -62,7 +62,8 @@ public class TrashScreen extends ScreenAdapter implements ContactListener, Input
     }
 
     private void loadImages() {
-
+        trashCanImage = new Texture(Gdx.files.internal("assets/dumpster.png"));
+        trashImage = new Texture(Gdx.files.internal("assets/apple_core.png"));
     }
 
     @Override
@@ -78,9 +79,13 @@ public class TrashScreen extends ScreenAdapter implements ContactListener, Input
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
+        batch.draw(trashCanImage, 12 * Constants.PPM, 2 * Constants.PPM);
+        for (Body body : trash) {
+            batch.draw(trashImage, body.getPosition().x * Constants.PPM - 16, body.getPosition().y * Constants.PPM - 16);
+        }
         batch.end();
 
-        box2DDebugRenderer.render(world, camera.combined.scl(Constants.PPM));
+        //box2DDebugRenderer.render(world, camera.combined.scl(Constants.PPM));
 
         if (clickLoc != null && dir != null) {
             MeshBuilder meshbuilder = new MeshBuilder();
@@ -107,8 +112,6 @@ public class TrashScreen extends ScreenAdapter implements ContactListener, Input
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
-
-
     }
 
     @Override

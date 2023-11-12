@@ -38,6 +38,7 @@ public class TileMapHelper {
             else if (mapObject instanceof RectangleMapObject) {
                 Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
                 String rectangleName = mapObject.getName();
+                if (rectangleName == null) continue;
 
                 if (rectangleName.equals("goal")) {
                     Body body = BodyHelperService.createFlagBody(
